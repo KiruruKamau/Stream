@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
 import plotly.express as px
 
 # Set the page title and layout
@@ -15,8 +14,17 @@ uploaded_file = st.file_uploader('Upload a dataset', type=['csv', 'xlsx'])
 
 # Check if a file is uploaded
 if uploaded_file is not None:
+    # Check the file extension
+    file_extension = uploaded_file.name.split(".")[-1]
+
     # Read the dataset into a pandas DataFrame
-    df = pd.read_csv(uploaded_file)  # Use pd.read_excel() for Excel files
+    if file_extension == "csv":
+        df = pd.read_csv(uploaded_file)
+    elif file_extension == "xlsx":
+        df = pd.read_excel(uploaded_file)
+    else:
+        st.error("Invalid file format. Please upload a CSV or Excel file.")
+        st.stop()
 
     # Display the dataset
     st.subheader('Dataset')
