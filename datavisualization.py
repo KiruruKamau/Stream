@@ -21,7 +21,11 @@ if uploaded_file is not None:
     if file_extension == "csv":
         df = pd.read_csv(uploaded_file)
     elif file_extension == "xlsx":
-        df = pd.read_excel(uploaded_file)  # Use pd.read_excel() instead
+        # Read all sheets into a dictionary of DataFrames
+        xls = pd.ExcelFile(uploaded_file)
+        sheet_names = xls.sheet_names
+        sheet_selected = st.selectbox('Select sheet', sheet_names)
+        df = pd.read_excel(xls, sheet_name=sheet_selected)
     else:
         st.error("Invalid file format. Please upload a CSV or Excel file.")
         st.stop()
