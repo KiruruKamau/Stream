@@ -21,7 +21,7 @@ if uploaded_file is not None:
     if file_extension == "csv":
         df = pd.read_csv(uploaded_file)
     elif file_extension == "xlsx":
-        df = pd.ExcelFile(uploaded_file)
+        df = pd.read_excel(uploaded_file)  # Use pd.read_excel() instead
     else:
         st.error("Invalid file format. Please upload a CSV or Excel file.")
         st.stop()
